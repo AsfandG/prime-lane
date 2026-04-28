@@ -1,9 +1,9 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/user.js";
-dotenv.config();
+
 connectDB();
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send({ message: "healthy!" });
 });
-app.use("api/user", authRoutes);
+app.use("api/", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`server running on port http://localhost:${PORT}`);
