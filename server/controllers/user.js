@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
       const message = `<h2>Welcome to Prime-Lane, ${name}! Your OTP for prime-lane registration is ${otp}</h2>`;
       await sendEmail(email, "Registration OTP", message);
       res.status(200).json({
-        name: newUser._id,
+        name: newUser.name,
         role: newUser.role,
         token: generateToken(newUser._id),
       });
@@ -66,8 +66,11 @@ export const loginUser = async (req, res) => {
 // Get Users
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
-    res.json({ status: success, users });
+    const [users, count] = await Promise.all([
+      User.find().select("-password"),
+      User.countDocuments(),
+    ]);
+    res.json({ totalUsers: count, users });
   } catch (error) {
     res.status(200).json({ message: "server error", error: error.message });
   }
