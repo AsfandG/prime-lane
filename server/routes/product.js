@@ -18,7 +18,7 @@ router
 router
   .route("/:id")
   .get(getProduct)
-  .put(isAuthenticated, isAdmin, updateProduct)
+  .put(isAuthenticated, isAdmin, upload.single("imageUrl"), updateProduct)
   .delete(isAuthenticated, isAdmin, deleteProduct);
 
 export default router;
